@@ -61,12 +61,13 @@ if [ "$CONFIRM" = "yes" ] ; then
 	sudo chmod ugo+rw ./extensions/SemanticMediaWiki
 	sudo php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
 	php maintenance/update.php
+	
+	#Enable Semantics No longer needed! https://www.semantic-mediawiki.org/wiki/Thread:User_talk:Kghbln/enableSemantics_no_longer_needed
+	#lineToAppend ="enableSemantics( '${ADDRESS}' );"
+	#fileToModify = "LocalSettings.php"
 
-	lineToAppend ="enableSemantics( '${ADDRESS}' );"
-	fileToModify = "LocalSettings.php"
-
-	grep -q -F '$lineToAppend' $fileToModify || echo '$lineToAppend' >> $fileToModify
-	cd -
+	#grep -q -F '$lineToAppend' $fileToModify || echo '$lineToAppend' >> $fileToModify
+	#cd -
 	
 	echo "Please visit ${ADDRESS}/wiki/Special:Version to check it Semantic Mediawiki is installed."
 	
