@@ -59,7 +59,7 @@ if [ "$CONFIRM" = "yes" ] ; then
 	cd mediawiki
 	sudo mkdir -p ./extensions/SemanticMediaWiki
 	sudo chmod ugo+rw ./extensions/SemanticMediaWiki
-	php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
+	sudo php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
 	php maintenance/update.php
 
 	lineToAppend ="enableSemantics( '${ADDRESS}' );"
