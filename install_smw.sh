@@ -56,11 +56,10 @@ if [ "$CONFIRM" = "yes" ] ; then
 	sudo mkdir -p /var/www/html/vendor
 	sudo chmod ugo+rw /var/www/html/vendor
 	
+	cd mediawiki
 	sudo mkdir -p ./extensions/SemanticMediaWiki
 	sudo chmod ugo+rw ./extensions/SemanticMediaWiki
-	
 	php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
-	cd mediawiki
 	php maintenance/update.php
 
 	lineToAppend ="enableSemantics( '${ADDRESS}' );"
