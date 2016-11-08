@@ -4,6 +4,10 @@ MYSQL_PASSWORD="FIXME__PASSWORD"
 HOST="your.website.com"
 ADDRESS="http://${HOST}"
 
+#install sendmail
+sudo apt-get update
+sudo apt-get install sendmail
+
 #DNS fixes
 sudo rm /etc/resolv.conf
 sudo ln -s ../run/resolvconf/resolv.conf /etc/resolv.conf
