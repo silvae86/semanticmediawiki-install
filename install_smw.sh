@@ -51,32 +51,35 @@ read CONFIRM
 
 if [ "$CONFIRM" = "yes" ] ; then
 	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-	php -r "if (hash_file('SHA384', 'composer-setup.php') === 'e115a8dc7871f15d853148a7fbac7da27d6c0030b848d9b3dc09e2a0388afed865e6a3d6b3c0fad45c48e2b5fc1196ae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+	php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 	php composer-setup.php
 	php -r "unlink('composer-setup.php');"
+
+	sudo apt-get install composer
 
 	cd /var/www/html
 	sudo chmod ugo+w composer.json
 	sudo mkdir -p /var/www/html/vendor
 	sudo chmod ugo+rw /var/www/html/vendor
-	
+
 	cd mediawiki
-	
+	composer update
+
 	#enable uploads
 	sudo chmod -R 0777 images/
-	
+
 	sudo mkdir -p ./extensions/SemanticMediaWiki
 	sudo chmod ugo+rw ./extensions/SemanticMediaWiki
 	sudo php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
 	php maintenance/update.php
-	
+
 	#Enable Semantics No longer needed! https://www.semantic-mediawiki.org/wiki/Thread:User_talk:Kghbln/enableSemantics_no_longer_needed
 	#lineToAppend ="enableSemantics( '${ADDRESS}' );"
 	#fileToModify = "LocalSettings.php"
 
 	#grep -q -F '$lineToAppend' $fileToModify || echo '$lineToAppend' >> $fileToModify
 	#cd -
-	
+
 	echo "Please visit ${ADDRESS}/wiki/Special:Version to check it Semantic Mediawiki is installed."
-	
+
 fi

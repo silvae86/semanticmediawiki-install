@@ -109,6 +109,11 @@ Vagrant.configure("2") do |config|
     sudo sed -i '/memory_limit = 8M/c\\memory_limit = 128M' /etc/php/7.0/apache2/php.ini
 
 
+    sudo apt-get install php7.0-mbstring
+    sudo apt-get install php-xml
+    sudo service apache2 restart
+    
+
     cd /var/www/html
     sudo ln -s /var/lib/mediawiki mediawiki
     cd -
