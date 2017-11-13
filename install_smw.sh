@@ -71,6 +71,7 @@ if [ "$CONFIRM" = "yes" ] ; then
 	sudo mkdir -p ./extensions/SemanticMediaWiki
 	sudo chmod ugo+rw ./extensions/SemanticMediaWiki
 	sudo php ~/composer.phar require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
+        sudo composer require mediawiki/semantic-result-formats "1.9.*"
 	php maintenance/update.php
 
 	#Enable Semantics No longer needed! https://www.semantic-mediawiki.org/wiki/Thread:User_talk:Kghbln/enableSemantics_no_longer_needed
