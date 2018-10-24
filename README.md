@@ -1,6 +1,6 @@
-# How to install a base Semantic MediaWiki
+# How to install Semantic MediaWiki
 
-This is intended as a record of my installations of Semantic MediaWiki for the course of Information Management and Collaboration at FEUP.
+This is intended as a record of my installations of [Semantic MediaWiki](https://en.wikipedia.org/wiki/Semantic_MediaWiki) for the course of Information Management and Collaboration that I teach at the [Master in Information Science](https://sigarra.up.pt/feup/en/cur_geral.cur_view?pv_curso_id=737) at [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial).
 
 It can also be used by anyone who needs to install a Semantic MediaWiki instance from scratch.
 
@@ -12,9 +12,9 @@ A fresh Ubuntu machine (I am using 18.04 LTS on a Virtual Machine at the moment)
 
 Semantic MediaWiki needs MySQL, Apache2, PHP, Inkscape and others. We will install these as part of the process, as well as SendMail to be able to notify people when they register and to be able to recover passwords.
 
-## Installation
+## Installation of MediaWiki
 
-Now lets get on with the installation.
+Before we can install the Semantic extension we need to install the base MediaWiki software.
 
 ### Set up some variables for the installation
 
@@ -108,8 +108,6 @@ Go to your website address in the browser (for my case http://gcc-mci.fe.up.pt/m
 
 ![Mediawiki Setup Database](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/2_db_setup.png)
 
-![Mediawiki Setup Database 2](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
-
 ![Mediawiki Setup Wiki Details](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/3_type_of_db.png)
 
 ![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/4_wiki_details.png)
@@ -122,4 +120,114 @@ Go to your website address in the browser (for my case http://gcc-mci.fe.up.pt/m
 
 ![Mediawiki Setup Install Finished](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/8_finished.png)
 
-![Mediawiki Setup Download LocalSettings](https://github.com/silvae86/semanticmediawiki-install/find/master)
+![Mediawiki Setup Download LocalSettings](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/9_download_localsettings.png)
+
+### Download LocalSettings.php to the MediaWiki installation
+
+After the setup is complete, your browser will automatically download a file called `LocalSettings.php`. This will have to be placed in a specific directory and customised to suit our particular needs.
+
+Upload the `LocalSettings.php` file to your home directory using an FTP client and then copy it to the MediaWiki installation directory
+
+```bash
+cd ~
+sudo mv ~/LocalSettings.php /var/www/html/mediawiki
+sudo chown -R www-data /var/www/html
+```
+
+### Set right permissions to enable file uploads
+
+sudo chmod -R 0755 /var/www/html/mediawiki/images
+
+### Mediawiki is Ready
+
+You should now see the MediaWiki home page ready to work
+
+![Mediawiki Ready](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/10_mediawiki_installed.png)
+
+## Installation of Semantic MediaWiki extension
+
+Semantic Mediawiki relies on PHP Composer. Let's install it first.
+
+### Install PHP Composer
+
+```bash
+cd ~
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+
+sudo apt-get -y -qq install composer
+
+```
+
+### Run PHP Composer on HTML Folder and update MediaWiki dependencies
+
+```bash
+cd /var/www/html
+sudo chmod ugo+w composer.json
+sudo mkdir -p /var/www/html/vendor
+sudo chmod ugo+rw /var/www/html/vendor
+
+cd /var/www/html/mediawiki
+composer update
+```
+
+### Install Semantic Mediawiki extension in MediaWiki
+
+```bash
+cd /var/www/html/mediawiki
+sudo mkdir -p ./extensions/SemanticMediaWiki
+sudo chmod ugo+rw ./extensions/SemanticMediaWiki
+sudo composer require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
+sudo composer require mediawiki/semantic-result-formats "1.9.*"
+php maintenance/update.php
+```
+
+### Finishing Touches
+
+The LocalSettings.php file needs to be customised with some tuning add-ons.
+
+Add at the end:
+
+```php
+// Set custom logo if you want
+$wgLogo = $wgScriptPath . '/images/feup_logo.png';
+
+// Enable semantics for the wiki. Replace with the root URL of your wiki
+enableSemantics( 'http://gcc-mci.fe.up.pt/mediawiki' ); //FIXME
+//
+//Prevent new user registrations except by sysops
+$wgGroupPermissions['*']['createaccount'] = false;
+
+//enable uploads
+$wgEnableUploads = true; # Enable uploads
+
+$wgTrustedMediaFormats[] = 'application/zip';
+
+$wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'doc',
+    'xls', 'mpp', 'pdf', 'ppt', 'tiff', 'bmp', 'docx', 'xlsx',
+    'pptx', 'ps', 'odt', 'ods', 'odp', 'odg', 'zip'
+);
+
+//enable captchas to present spam
+wfLoadExtensions( array( 'ConfirmEdit', 'ConfirmEdit/QuestyCaptcha' ) );
+
+// Add your questions in LocalSettings.php using this format:
+// A question may have many answers
+$wgCaptchaQuestions = array(
+    'Qual é o nome ou sigla desta Unidade Curricular?' => array( 'GCC', 'gestt
+ão de conhecimento e colaboração', 'Gestão de Conhecimento', 'Gestão de C
+onhecimento e Colaboração', 'gestao de conhecimento e colaboracao' )
+);
+
+$wgGroupPermissions['*']['edit'] = false;
+```
+
+### Your SemanticMediaWiki should be ready
+
+Go to your wiki address, in my case http://gcc-mci.fe.up.pt/mediawiki/wiki/Special:Version or http://gcc-mci.fe.up.pt/mediawiki/index.php/Especial:Versão (in Portuguese wikis). You should see that your list includes Semantic Mediawiki:
+
+![Semantic Mediawiki Installed](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/11-smw_installed)
+
+Happy Wiki'ing!
