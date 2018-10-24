@@ -104,18 +104,22 @@ Go to your website address in the browser (for my case http://gcc-mci.fe.up.pt/m
 
 #### Setup process
 
-![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/1_language.png)
 
-![Mediawiki Setup Database](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Database](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/2_db_setup.png)
 
 ![Mediawiki Setup Database 2](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
 
-![Mediawiki Setup Wiki Details](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Wiki Details](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/3_type_of_db.png)
 
-![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/4_wiki_details.png)
 
-![Mediawiki Setup Install Now](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Admin Details](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/5_add_admin_details.png)
 
-![Mediawiki Setup Install Finished](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Install Now](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/6_install_it.png)
 
-![Mediawiki Setup Download LocalSettings](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+![Mediawiki Setup Ready to Install](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/7_before_install.png)
+
+![Mediawiki Setup Install Finished](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/8_finished.png)
+
+![Mediawiki Setup Download LocalSettings](https://github.com/silvae86/semanticmediawiki-install/find/master)
