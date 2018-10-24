@@ -228,6 +228,6 @@ $wgGroupPermissions['*']['edit'] = false;
 
 Go to your wiki address, in my case http://gcc-mci.fe.up.pt/mediawiki/wiki/Special:Version or http://gcc-mci.fe.up.pt/mediawiki/index.php/Especial:Versão (in Portuguese wikis). You should see that your list includes Semantic Mediawiki:
 
-![Semantic Mediawiki Installed](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/11-smw_installed)
+![Semantic Mediawiki Installed](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/11-smw_installed.png)
 
 Happy Wiki'ing!
