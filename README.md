@@ -99,3 +99,23 @@ sudo service apache2 restart # restart apache with new settings
 ### Configure your new mediawiki
 
 Go to your website address in the browser (for my case http://gcc-mci.fe.up.pt/mediawiki, in your case you will adjust accordingly) and configure MediaWiki using the wizard.
+
+![Mediawiki Setup Welcome Screen](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+#### Setup process
+
+![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Database](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Database 2](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Wiki Details](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Language](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Install Now](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Install Finished](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
+
+![Mediawiki Setup Download LocalSettings](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/mediawiki_welcome.png)
