@@ -1,4 +1,6 @@
-# How to install Semantic MediaWiki
+## How to install Semantic MediaWiki on Ubuntu 18.04 LTS
+
+Original repository with scripts for installation: https://github.com/silvae86/semanticmediawiki-install
 
 This is intended as a record of my installations of [Semantic MediaWiki](https://en.wikipedia.org/wiki/Semantic_MediaWiki) for the course of Information Management and Collaboration that I teach at the [Master in Information Science](https://sigarra.up.pt/feup/en/cur_geral.cur_view?pv_curso_id=737) at [FEUP](https://sigarra.up.pt/feup/en/web_page.Inicial).
 
@@ -87,7 +89,7 @@ ls /var/www/html/mediawiki # You should see a file listing after these commands 
 
 ### Increase maximum upload size on Apache to allow uploads larger than 2M to the wiki
 
-**You may need to modify the PHP version in the following commands as it changes. 7.2 needs to become 7.4, or whatever is installed on your system. Run `ls /etc/php`,  see which version of PHP you have installed and modify the paths accordingly:
+**You may need to modify the PHP version** in the following commands as it changes. 7.2 needs to become 7.4, or whatever is installed on your system. Run `ls /etc/php`,  see which version of PHP you have installed and **modify the paths accordingly:**
 
 ```bash
 sudo sed -i '/upload_max_filesize = 2M/c\\upload_max_filesize = 50M' /etc/php/7.2/apache2/php.ini
@@ -179,8 +181,9 @@ composer update
 cd /var/www/html/mediawiki
 sudo mkdir -p ./extensions/SemanticMediaWiki
 sudo chmod ugo+rw ./extensions/SemanticMediaWiki
-sudo composer require mediawiki/semantic-media-wiki "~2.1" --update-no-dev
-sudo composer require mediawiki/semantic-result-formats "1.9.*"
+sudo composer require mediawiki/semantic-media-wiki "3.0.0" --update-no-dev
+sudo composer require mediawiki/semantic-result-formats "3.0.0"
+composer update --no-dev
 php maintenance/update.php
 ```
 
@@ -231,3 +234,81 @@ Go to your wiki address, in my case http://gcc-mci.fe.up.pt/mediawiki/wiki/Speci
 ![Semantic Mediawiki Installed](https://github.com/silvae86/semanticmediawiki-install/raw/master/images/setup/11-smw_installed.png)
 
 Happy Wiki'ing!
+
+## Extra: how to clone a semantic mediawiki installation
+
+Sometimes you need to create different installations for separate permissions management. In my case I had to create several SMW instances where my students had administrative permissions to be able to parametrize controlled vocabularies. However, if they would be administrator of their wiki, they would see everyone's work (which is obviously not good for evaluation!)
+
+The solution is to completely clone the wiki and make it into separate workspaces, so that they can be admins of their own wikis but not see their colleagues' work in their own wikis.
+
+### Copy the folder to a new one
+
+```bash
+cp -R /var/www/html/mediawiki /var/www/html/grupo1
+cp -R /var/www/html/mediawiki /var/www/html/grupo2
+cp -R /var/www/html/mediawiki /var/www/html/grupo3
+# ...
+```
+
+Now for all the new subfolders, you need to run the following operations.
+
+### Enter the cloned folders
+
+```bash
+cd /var/www/html/grupo1
+```
+
+### Create an empty MySQL Database for every new cloned wiki
+
+```bash
+mysql -u root -pMYSQL_ROOT_PASSWORD # replace MYSQL_ROOT_PASSWORD with your mysql admin password
+
+mysql> create database grupo1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create database grupo2;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create database grupo3;
+Query OK, 1 row affected (0.00 sec)
+```
+
+### Edit LocalSettings.php inside each cloned folder
+
+If you do not edit this, all three wikis will be editing the same MySQL database! We need to change the database being used by each wiki, among other stuff.
+
+```PHP
+# Site name
+$wgSitename = "Semantic MediaWiki Grupo 1 GCC"; # (Before) $wgSitename = "Semantic MediaWiki Sandbox GCC";
+
+# Namespace, must be unique
+$wgMetaNamespace = "Semantic_MediaWiki_Grupo1_GCC"; # (Before) $wgMetaNamespace = "Semantic_MediaWiki_Sandbox_GCC";
+
+# Wiki subfolder
+$wgScriptPath = "/grupo1";  # (Before) $wgScriptPath = "/mediawiki";  
+
+## Database settings
+$wgDBname = "grupo1"; # (Before) $wgDBname = "demo";
+
+# Site secret
+$wgSecretKey = "a_very_long_key"; # (Before) $wgSecretKey = "another_very_long_key";
+```
+
+### Recreate MediaWiki database tables
+
+```bash
+mysql -u root -pMYSQL_ROOT_PASSWORD < maintenance/tables.sql
+```
+
+### Recreate Semantic MediaWiki database tables
+
+```bash
+php maintenance/update.php
+```
+
+### Create admin user in each wiki
+
+```bash
+cd /var/www/html/grupo1
+php maintenance/createAndPromote.php --sysop --bureaucrat new_user_username my_secret_password # create 'new_user_username' with password 'my_secret_password'
+```
