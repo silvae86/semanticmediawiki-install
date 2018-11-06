@@ -227,6 +227,13 @@ onhecimento e Colaboração', 'gestao de conhecimento e colaboracao' )
 $wgGroupPermissions['*']['edit'] = false;
 ```
 
+## Extra 1: Promote users to admins if you need it
+
+Access these pages and select your users; attribute them to the administration groups
+
+http://your-wiki-address/mediawiki/index.php/Special:Privileges (in English)
+http://your-wiki-address/mediawiki/index.php/Especial:Privil%C3%A9gios (in Portuguese)
+
 ### Your SemanticMediaWiki should be ready
 
 Go to your wiki address, in my case http://gcc-mci.fe.up.pt/mediawiki/wiki/Special:Version or http://gcc-mci.fe.up.pt/mediawiki/index.php/Especial:Versão (in Portuguese wikis). You should see that your list includes Semantic Mediawiki:
@@ -235,7 +242,7 @@ Go to your wiki address, in my case http://gcc-mci.fe.up.pt/mediawiki/wiki/Speci
 
 Happy Wiki'ing!
 
-## Extra: how to clone a semantic mediawiki installation
+## Extra 2: how to clone a semantic mediawiki installation
 
 Sometimes you need to create different installations for separate permissions management. In my case I had to create several SMW instances where my students had administrative permissions to be able to parametrize controlled vocabularies. However, if they would be administrator of their wiki, they would see everyone's work (which is obviously not good for evaluation!)
 
